@@ -1,29 +1,24 @@
-# Simple Task API (PHP + SQLite)
+# Simple Task API (Laravel + SQLite)
 
-This is a small REST API for managing tasks using plain PHP and SQLite.
+REST API для управления задачами (To-Do List) на Laravel.
 
-## Requirements
-- PHP 7.4+ with PDO SQLite enabled, or Docker
+## Требования
+- Docker (рекомендовано), или PHP 8.4+ и Composer
 
-## Run with Docker (recommended)
+## Быстрый запуск (2 команды)
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-API will be available at `http://localhost:8000`.
+API будет доступен на `http://localhost:8000`.
 
-## Run locally
-1. Create `.env` (if needed) and confirm the database path:
-
+## Локальный запуск без Docker
 ```bash
 cp .env.example .env
-```
-
-2. Start the server:
-
-```bash
-php -S localhost:8000 index.php
+composer install
+php artisan migrate
+php artisan serve
 ```
 
 ## Endpoints
@@ -33,7 +28,7 @@ php -S localhost:8000 index.php
 - `PUT /tasks/{id}`
 - `DELETE /tasks/{id}`
 
-## HTTP status codes
+## HTTP статус-коды
 - `POST /tasks` -> `201 Created`
 - `GET` -> `200 OK`
 - `PUT` -> `200 OK`
@@ -42,12 +37,12 @@ php -S localhost:8000 index.php
 - not found -> `404 Not Found`
 - wrong method -> `405 Method Not Allowed`
 
-## Validation
-- `title` is required
-- `status` must be one of: `new`, `in_progress`, `done`
-- default `status` is `new`
+## Валидация
+- `title` обязателен
+- `status` должен быть одним из: `new`, `in_progress`, `done`
+- `status` по умолчанию: `new`
 
-## Error format
+## Формат ошибок
 ```json
 {
   "error": "Validation failed",
@@ -57,41 +52,12 @@ php -S localhost:8000 index.php
 }
 ```
 
-## Project structure
-- `index.php` - router + handlers
-- `db.php` - SQLite connection and table setup
-- `database/database.sqlite` - SQLite database file (created on first run)
-- `.env` - environment config (see `.env.example`)
+## Структура проекта
+- `routes/api.php` — маршруты API
+- `app/Http/Controllers/TaskController.php` — обработчики CRUD
+- `app/Models/Task.php` — модель задачи
+- `database/migrations/2025_12_27_000000_create_tasks_table.php` — миграция
+- `plain-php/` — версия на чистом PHP (для истории)
 
 ## Postman collection
 - `postman_collection.json`
-
-## Example requests
-Create:
-```bash
-curl -X POST http://localhost:8000/tasks \
-  -H "Content-Type: application/json" \
-  -d "{\"title\":\"Buy milk\",\"description\":\"2 liters\",\"status\":\"new\"}"
-```
-
-List:
-```bash
-curl http://localhost:8000/tasks
-```
-
-Get one:
-```bash
-curl http://localhost:8000/tasks/1
-```
-
-Update:
-```bash
-curl -X PUT http://localhost:8000/tasks/1 \
-  -H "Content-Type: application/json" \
-  -d "{\"status\":\"done\"}"
-```
-
-Delete:
-```bash
-curl -X DELETE http://localhost:8000/tasks/1
-```

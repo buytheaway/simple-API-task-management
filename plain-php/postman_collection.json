@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Simple Task API (Laravel)",
-    "_postman_id": "a9fe37a6-153f-4dd2-9c9d-2d7bc2fe0da1",
+    "name": "Simple Task API",
+    "_postman_id": "b56f1b2c-1c5c-4c23-9b4d-2f5b8c1b0a01",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
